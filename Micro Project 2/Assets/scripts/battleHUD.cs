@@ -7,22 +7,22 @@ public class battleHUD : MonoBehaviour
 {
     public Text nameText;
 
-    public Slider PhysicalitySlider;
-    public Slider JoySlider;
-    public Slider MeaningSlider;
+    public Slider HPSlider;
+    public Slider AtkModSlider;
+    public Slider DefModSlider;
 
     public void setHUD(unit unit)
     {
         nameText.text = unit.UnitName;
 
-        PhysicalitySlider.maxValue = unit.maxPysicality;
-        PhysicalitySlider.value = unit.currentPysicality;
+        HPSlider.maxValue = unit.maxHP;
+        HPSlider.value = unit.currentHP;
 
-        JoySlider.maxValue = unit.maxJoy;
-        JoySlider.value = unit.currentJoy;
+        AtkModSlider.maxValue = unit.maxAtkMod;
+        AtkModSlider.value = unit.currentAtkMod;
 
-        MeaningSlider.maxValue = unit.maxMeaning;
-        MeaningSlider.value = unit.currentMeaning;
+        DefModSlider.maxValue = unit.maxDefMod;
+        DefModSlider.value = unit.currentDefMod;
     }
 
 }

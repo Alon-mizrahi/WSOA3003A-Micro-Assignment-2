@@ -105,9 +105,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UnitName: Player 1
-  maxPysicality: 100
-  currentPysicality: 100
-  maxJoy: 100
-  currentJoy: 100
-  maxMeaning: 100
-  currentMeaning: 100
+  maxHP: 100
+  currentHP: 100
+  maxAtkMod: 10
+  currentAtkMod: 0
+  maxDefMod: 10
+  currentDefMod: 0

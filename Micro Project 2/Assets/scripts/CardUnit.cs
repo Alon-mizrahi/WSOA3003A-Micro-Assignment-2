@@ -8,18 +8,30 @@ public class CardUnit : MonoBehaviour
     public string CardName;
     public string CardDiscription;
 
-    public float PHVal;
-    public float JoyVal;
-    public float MeaningVal;
-
     //actual text elements
-    public Text cardName;
-    public Text cardDiscription;
-    public Text PhValtxt;
-    public Text JoyValtxt;
-    public Text meaningValtxt;
+    public Text cardType;
 
-    public bool isATKCard;
+//Player values and text
+    public float PlayerHPVal;
+    public float PlayerAtkModVal;
+    public float PlayerDefModVal;
+
+    public Text PlayerHPValtxt;
+    public Text PlayerAtkModValtxt;
+    public Text PlayerDefModValtxt;
+
+
+//Enemy values and text
+    public float EnemyHPVal;
+    public float EnemyAtkModVal;
+    public float EnemyDefModVal;
+
+    public Text EnemyHPValtxt;
+    public Text EnemyAtkModValtxt;
+    public Text EnemyDefModValtxt;
+
+
+    //public bool isATKCard;
 
     battleSystem battleSystem;
     public GameObject battlesystm;
@@ -27,31 +39,31 @@ public class CardUnit : MonoBehaviour
     {
         battleSystem = battlesystm.GetComponent<battleSystem>();
 
-        cardName.text = CardName;
-        cardDiscription.text = CardDiscription;
-        PhValtxt.text = ""+PHVal;
-        JoyValtxt.text = ""+JoyVal;
-        meaningValtxt.text = ""+MeaningVal;
+        cardType.text = CardName;
+
+        PlayerHPValtxt.text = ""+ PlayerHPVal;
+        PlayerAtkModValtxt.text = ""+ PlayerAtkModVal;
+        PlayerDefModValtxt.text = ""+ PlayerDefModVal;
+
+        EnemyHPValtxt.text = "" + EnemyHPVal;
+        EnemyAtkModValtxt.text = "" + EnemyAtkModVal;
+        EnemyDefModValtxt.text = "" + EnemyDefModVal;
+
+
     }
 
 
-    //defense card used
+    //Player card used
     public void ATKCardUsed()
     {
         // send card unit data to Attack card function (battlesystem)
-        battleSystem.OnAttackCard(PHVal, MeaningVal, JoyVal, this.gameObject);    
+        battleSystem.OnAttackCard(PlayerHPVal, PlayerDefModVal, PlayerAtkModVal, this.gameObject, EnemyHPVal, EnemyDefModVal, EnemyAtkModVal);    
     }
 
-    //attack card used
-    public void DEFCardUsed()
-    {
-        // send card unit data to defense card function (battlesystem)
-        battleSystem.OnDefenseCard(PHVal, MeaningVal, JoyVal, this.gameObject);
-    }
 
     public void EnemyCardUsed()
     {
-        battleSystem.EnemyCardUsed(PHVal, MeaningVal, JoyVal, this.gameObject);
+        battleSystem.EnemyCardUsed(PlayerHPVal, PlayerDefModVal, PlayerAtkModVal, this.gameObject, EnemyHPVal, EnemyDefModVal, EnemyAtkModVal);
     }
 
 }

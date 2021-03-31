@@ -7,19 +7,19 @@ public class unit : MonoBehaviour
     public string UnitName;
 
     //add the three types of HP and there current levels
-    public float maxPysicality;
-    public float currentPysicality;
+    public float maxHP;
+    public float currentHP;
 
-    public float maxJoy;
-    public float currentJoy;
+    public float maxAtkMod;
+    public float currentAtkMod;
 
-    public float maxMeaning;
-    public float currentMeaning;
+    public float maxDefMod;
+    public float currentDefMod;
 
 
     public bool isDead()
     {
-        if (currentPysicality <= 0 || currentJoy<=0 ||currentMeaning<=0) { return true; } else { return false; }
+        if (currentHP <= 0) { return true; } else { return false; }
     }
 
 

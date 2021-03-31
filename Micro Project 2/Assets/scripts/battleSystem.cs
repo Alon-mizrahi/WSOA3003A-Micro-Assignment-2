@@ -75,10 +75,10 @@ public class battleSystem : MonoBehaviour
         DialogText.text = "Enemy's turn";
         yield return new WaitForSeconds(1f);
         //do things?
-        if (cardsystem.isTrueEnemyCardHolder1 == false || cardsystem.isTrueEnemyCardHolder2==false||cardsystem.isTrueEnemyCardHolder3==false) { cardsystem.OnDrawCard(); }
+        if (cardsystem.isTrueEnemyCardHolder1 == false || cardsystem.isTrueEnemyCardHolder2==false||cardsystem.isTrueEnemyCardHolder3==false || cardsystem.isTrueEnemyCardHolder4 == false || cardsystem.isTrueEnemyCardHolder5 == false) { cardsystem.OnDrawCard(); }
         else
         {
-            int x = Random.Range(1, 4);
+            int x = Random.Range(1, 6);
 
             //going to do random number gen and choose of the three cards
             if (x==1)
@@ -92,6 +92,14 @@ public class battleSystem : MonoBehaviour
             else if(x==3)
             {
                 cardsystem.EnemyCardHolder3.transform.GetChild(0).GetComponent<CardUnit>().EnemyCardUsed();
+            }
+            else if (x == 4)
+            {
+                cardsystem.EnemyCardHolder4.transform.GetChild(0).GetComponent<CardUnit>().EnemyCardUsed();
+            }
+            else if (x == 5)
+            {
+                cardsystem.EnemyCardHolder5.transform.GetChild(0).GetComponent<CardUnit>().EnemyCardUsed();
             }
         }
     }
@@ -127,109 +135,126 @@ public class battleSystem : MonoBehaviour
 
 //Attack and defens play funcitons---------------------------------------------------------------
 
-    public void OnAttackCard(float PHVal, float MeaningVal, float JoyVal, GameObject card)
+    public void OnAttackCard(float PlayerHPVal, float PlayerDefModVal, float PlayerAtkModVal, GameObject card, float EnemyHPVal, float EnemyDefModVal, float EnemyAtkModVal)
     {
         //what state we in?
         if (state == BattleState.PLAYERTURN)//player attacking
         {
-            StartCoroutine(PlayerAttack(PHVal,MeaningVal,JoyVal));
+            StartCoroutine(PlayerAttack(PlayerHPVal,PlayerDefModVal,PlayerAtkModVal,EnemyHPVal,EnemyDefModVal,EnemyAtkModVal));
             Destroy(card);
             return;
         }
-        if (state == BattleState.ENEMYTURN)//enemy attacking
-        {
-            EnemyAttack(PHVal, MeaningVal, JoyVal);
+        //if (state == BattleState.ENEMYTURN)//enemy attacking
+        //{
+         //   EnemyAttack(PHVal, MeaningVal, JoyVal);
+         //   Destroy(card);
+         //   return;
+        //}
+    }
+    //PlayerHPVal, PlayerDefModVal, PlayerAtkModVal
+    public void EnemyCardUsed(float PlayerHPVal, float PlayerDefModVal, float PlayerAtkModVal, GameObject card,float EnemyHPVal, float EnemyDefModVal, float EnemyAtkModVal)
+    {
             Destroy(card);
-            return;
-        }
+            StartCoroutine(EnemyAttack(PlayerHPVal, PlayerDefModVal, PlayerAtkModVal, EnemyHPVal, EnemyDefModVal, EnemyAtkModVal));
     }
 
-    public void EnemyCardUsed(float PHVal, float MeaningVal, float JoyVal, GameObject card)
+    IEnumerator PlayerAttack(float PlayerHPVal, float PlayerDefModVal, float PlayerAtkModVal, float EnemyHPVal, float EnemyDefModVal, float EnemyAtkModVal)
     {
-        if(card.GetComponent<CardUnit>().isATKCard == true)
-        {
-            Destroy(card);
-            StartCoroutine(EnemyAttack(PHVal, MeaningVal, JoyVal));
-        }
-        else
-        {
-            Destroy(card);
-            StartCoroutine(EnemyDefend(PHVal, MeaningVal, JoyVal));
-        }
-    }
+        //do attack change Enemy stats 
+        //convention card Enemyvals affect enemy
+        enemyUnit.currentAtkMod = enemyUnit.currentAtkMod + EnemyAtkModVal * BalanceAtkJoyVal;
+        enemyUnit.currentDefMod = enemyUnit.currentDefMod + EnemyDefModVal * BalanceAtkMeaningVal;
+        enemyUnit.currentHP = enemyUnit.currentHP + EnemyHPVal * BalanceAtkPHVal;
 
-    IEnumerator PlayerAttack(float PHVal, float MeaningVal, float JoyVal)
-    {
-        //do attack
-        enemyUnit.currentJoy -=JoyVal*BalanceAtkJoyVal;
-        enemyUnit.currentMeaning -=MeaningVal*BalanceAtkMeaningVal;
-        enemyUnit.currentPysicality -= BalanceAtkPHVal*PHVal;
+        enemyHUD.AtkModSlider.value = enemyUnit.currentAtkMod;
+        enemyHUD.DefModSlider.value = enemyUnit.currentDefMod;
+        enemyHUD.HPSlider.value = enemyUnit.currentHP;
 
-        enemyHUD.JoySlider.value = enemyUnit.currentJoy;
-        enemyHUD.MeaningSlider.value = enemyUnit.currentMeaning;
-        enemyHUD.PhysicalitySlider.value = enemyUnit.currentPysicality;
+        //do attack changing  Player stats    
+        playerUnit.currentAtkMod = playerUnit.currentAtkMod + PlayerAtkModVal * BalanceAtkJoyVal;
+        playerUnit.currentDefMod = playerUnit.currentDefMod + PlayerDefModVal * BalanceAtkMeaningVal;
+        playerUnit.currentHP = playerUnit.currentHP + PlayerHPVal * BalanceAtkPHVal;
+
+        playerHUD.AtkModSlider.value = playerUnit.currentAtkMod;
+        playerHUD.DefModSlider.value = playerUnit.currentDefMod;
+        playerHUD.HPSlider.value = playerUnit.currentHP;
+
 
         //check if dead
         if (enemyUnit.isDead() == true)
         {
             state = BattleState.WON;
             StartCoroutine(WonFunction());
-        }else
-        {
-            state = BattleState.ENEMYTURN;
-            yield return new WaitForSeconds(2f);
-            StartCoroutine(EnemyTurn());
-
         }
-    }
-
-    IEnumerator EnemyAttack(float PHVal, float MeaningVal, float JoyVal)
-    {
-        //do attack
-        playerUnit.currentJoy -= JoyVal*BalanceAtkJoyVal;
-        playerUnit.currentMeaning -= MeaningVal*BalanceAtkMeaningVal;
-        playerUnit.currentPysicality -= PHVal*BalanceAtkPHVal;
-
-        playerHUD.JoySlider.value = playerUnit.currentJoy;
-        playerHUD.MeaningSlider.value = playerUnit.currentMeaning;
-        playerHUD.PhysicalitySlider.value = playerUnit.currentPysicality;
-
-        //check if dead
         if (playerUnit.isDead() == true)
         {
             state = BattleState.LOST;
             StartCoroutine(LostFunction());
         }
-        else
+
+            state = BattleState.ENEMYTURN;
+            yield return new WaitForSeconds(2f);
+            StartCoroutine(EnemyTurn());
+    }
+//convention: enemy Vals affect player if enemy playing card. and visa versa. player refers to who is playing card
+    IEnumerator EnemyAttack(float PlayerHPVal, float PlayerDefModVal, float PlayerAtkModVal, float EnemyHPVal, float EnemyDefModVal, float EnemyAtkModVal)
+    {
+        //do attack changing Enemy player stats    
+        enemyUnit.currentAtkMod = enemyUnit.currentAtkMod+ PlayerAtkModVal * BalanceAtkJoyVal;
+        enemyUnit.currentDefMod = enemyUnit.currentDefMod+ PlayerDefModVal * BalanceAtkMeaningVal;
+        enemyUnit.currentHP = enemyUnit.currentHP+ PlayerHPVal * BalanceAtkPHVal;
+
+        enemyHUD.AtkModSlider.value = enemyUnit.currentAtkMod;
+        enemyHUD.DefModSlider.value = enemyUnit.currentDefMod;
+        enemyHUD.HPSlider.value = enemyUnit.currentHP;
+
+        //do attack changing  Player stats    
+        playerUnit.currentAtkMod = playerUnit.currentAtkMod + EnemyAtkModVal * BalanceAtkJoyVal;
+        playerUnit.currentDefMod = playerUnit.currentDefMod + EnemyDefModVal * BalanceAtkMeaningVal;
+        playerUnit.currentHP = playerUnit.currentHP + EnemyHPVal * BalanceAtkPHVal;
+
+        playerHUD.AtkModSlider.value = playerUnit.currentAtkMod;
+        playerHUD.DefModSlider.value = playerUnit.currentDefMod;
+        playerHUD.HPSlider.value = playerUnit.currentHP;
+
+        //check if player dead
+        if (playerUnit.isDead() == true)
         {
-            state = BattleState.PLAYERTURN;
+            state = BattleState.LOST;
+            StartCoroutine(LostFunction());
+        }
+        if (enemyUnit.isDead() == true)
+        {
+            state = BattleState.WON;
+            StartCoroutine(WonFunction());
+        }
+        state = BattleState.PLAYERTURN;
             yield return new WaitForSeconds(2f);
             PlayerTurn();
-
-        }
     }
 
 
 
 
-    public void OnDefenseCard(float PHVal, float MeaningVal, float JoyVal, GameObject card)
-    {
-        //what state we in?
-        if (state == BattleState.PLAYERTURN)//player defending
+        /*public void OnDefenseCard(float PHVal, float MeaningVal, float JoyVal, GameObject card)
         {
-            StartCoroutine(PlayerDefend(PHVal, MeaningVal, JoyVal));
-            Destroy(card);
-            return;
-        }
-        if (state == BattleState.ENEMYTURN)//enemy defending
-        {
-            StartCoroutine(EnemyDefend(PHVal, MeaningVal, JoyVal));
-            Destroy(card);
-            return;
-        }
-    }
+            //what state we in?
+            if (state == BattleState.PLAYERTURN)//player defending
+            {
+                StartCoroutine(PlayerDefend(PHVal, MeaningVal, JoyVal));
+                Destroy(card);
+                return;
+            }
+            if (state == BattleState.ENEMYTURN)//enemy defending
+            {
+                StartCoroutine(EnemyDefend(PHVal, MeaningVal, JoyVal));
+                Destroy(card);
+                return;
+            }
+        }*/   
+    
 
-    IEnumerator PlayerDefend(float PHVal, float MeaningVal, float JoyVal)
+    /*IEnumerator PlayerDefend(float PHVal, float MeaningVal, float JoyVal)
     {
         playerUnit.currentJoy+=JoyVal*BalanceDefJoyVal;
         playerUnit.currentMeaning+=MeaningVal*BalanceDefMeaningVal;
@@ -248,9 +273,9 @@ public class battleSystem : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
         StartCoroutine(EnemyTurn());
-    }
+    }*/
 
-    IEnumerator EnemyDefend(float PHVal, float MeaningVal, float JoyVal)
+    /*IEnumerator EnemyDefend(float PHVal, float MeaningVal, float JoyVal)
     {
         enemyUnit.currentJoy += JoyVal * BalanceDefJoyVal;
         enemyUnit.currentMeaning += MeaningVal * BalanceDefMeaningVal;
@@ -268,7 +293,7 @@ public class battleSystem : MonoBehaviour
         
         yield return new WaitForSeconds(1f);
         PlayerTurn();
-    }
+    }*/
 
 
 

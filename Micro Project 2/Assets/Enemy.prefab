@@ -105,9 +105,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UnitName: Baddie
-  maxPysicality: 100
-  currentPysicality: 50
-  maxJoy: 100
-  currentJoy: 50
-  maxMeaning: 100
-  currentMeaning: 50
+  maxHP: 100
+  currentHP: 100
+  maxAtkMod: 10
+  currentAtkMod: 0
+  maxDefMod: 10
+  currentDefMod: 0
