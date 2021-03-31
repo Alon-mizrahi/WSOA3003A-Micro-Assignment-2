@@ -11,6 +11,13 @@ public class battleHUD : MonoBehaviour
     public Slider AtkModSlider;
     public Slider DefModSlider;
 
+    CardSystem cardsystem;
+
+    private void Start()
+    {
+        cardsystem = GameObject.Find("CardSystem").GetComponent<CardSystem>();
+    }
+
     public void setHUD(unit unit)
     {
         nameText.text = unit.UnitName;
@@ -23,6 +30,17 @@ public class battleHUD : MonoBehaviour
 
         DefModSlider.maxValue = unit.maxDefMod;
         DefModSlider.value = unit.currentDefMod;
+    }
+
+    private void OnMouseOver()
+    {
+        cardsystem.CardDescription.text = "Atk Mod increases how much damage your cards do. Def Mod reduces how  much damage you take";
+        cardsystem.CardDescription.gameObject.SetActive(true);
+    }
+
+    private void OnMouseExit()
+    {
+        cardsystem.CardDescription.gameObject.SetActive(false);
     }
 
 }

@@ -108,6 +108,6 @@ MonoBehaviour:
   maxHP: 100
   currentHP: 100
   maxAtkMod: 10
-  currentAtkMod: 0
+  currentAtkMod: 1
   maxDefMod: 10
-  currentDefMod: 0
+  currentDefMod: 1

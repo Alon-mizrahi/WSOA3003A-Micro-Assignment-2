@@ -33,6 +33,16 @@ public class CardSystem : MonoBehaviour
     public bool isTrueEnemyCardHolder5 = false;
 
 
+    public GameObject EnemyCardBack1;
+    public GameObject EnemyCardBack2;
+    public GameObject EnemyCardBack3;
+    public GameObject EnemyCardBack4;
+    public GameObject EnemyCardBack5;
+
+    public Text CardDescription;
+
+    public bool isStarted = false;
+
     //access to states
     public GameObject battleSystem;
     battleSystem battlescript;
@@ -40,6 +50,12 @@ public class CardSystem : MonoBehaviour
 
     void Start()
     {
+        EnemyCardBack1.SetActive(false);
+        EnemyCardBack2.SetActive(false);
+        EnemyCardBack3.SetActive(false);
+        EnemyCardBack4.SetActive(false);
+        EnemyCardBack5.SetActive(false);
+
         battlescript = battleSystem.GetComponent<battleSystem>();
         Shuffle(); 
         //Debug.Log(battlescript.state);
@@ -63,6 +79,7 @@ public class CardSystem : MonoBehaviour
 
     public void OnDrawCard() //called by button
     {
+        isStarted = true;
         if (battlescript.state == BattleState.PLAYERTURN) {
             //check player doesnt have Full Hand
             if (isTruePlayerCardHolder1 == false)
@@ -120,7 +137,7 @@ public class CardSystem : MonoBehaviour
             {
                 deck[deckIterator].transform.parent = EnemyCardHolder1.transform;
                 deck[deckIterator].transform.position = EnemyCardHolder1.transform.position;
-
+                EnemyCardBack1.SetActive(true);
                 deck[deckIterator].transform.GetChild(0).GetComponentInChildren<Button>().interactable = false;
                 deckIterator++;
                 isTrueEnemyCardHolder1 = true;
@@ -132,7 +149,7 @@ public class CardSystem : MonoBehaviour
             {
                 deck[deckIterator].transform.parent = EnemyCardHolder2.transform;
                 deck[deckIterator].transform.position = EnemyCardHolder2.transform.position;
-
+                EnemyCardBack2.SetActive(true);
                 deck[deckIterator].transform.GetChild(0).GetComponentInChildren<Button>().interactable = false;
                 deckIterator++;
                 isTrueEnemyCardHolder2 = true;
@@ -144,7 +161,7 @@ public class CardSystem : MonoBehaviour
             {
                 deck[deckIterator].transform.parent = EnemyCardHolder3.transform;
                 deck[deckIterator].transform.position = EnemyCardHolder3.transform.position;
-
+                EnemyCardBack3.SetActive(true);
                 deck[deckIterator].transform.GetChild(0).GetComponentInChildren<Button>().interactable = false;
                 deckIterator++;
                 isTrueEnemyCardHolder3 = true;
@@ -156,7 +173,7 @@ public class CardSystem : MonoBehaviour
             {
                 deck[deckIterator].transform.parent = EnemyCardHolder4.transform;
                 deck[deckIterator].transform.position = EnemyCardHolder4.transform.position;
-
+                EnemyCardBack4.SetActive(true);
                 deck[deckIterator].transform.GetChild(0).GetComponentInChildren<Button>().interactable = false;
                 deckIterator++;
                 isTrueEnemyCardHolder4 = true;
@@ -168,7 +185,7 @@ public class CardSystem : MonoBehaviour
             {
                 deck[deckIterator].transform.parent = EnemyCardHolder5.transform;
                 deck[deckIterator].transform.position = EnemyCardHolder5.transform.position;
-
+                EnemyCardBack5.SetActive(true);
                 deck[deckIterator].transform.GetChild(0).GetComponentInChildren<Button>().interactable = false;
                 deckIterator++;
                 isTrueEnemyCardHolder5 = true;

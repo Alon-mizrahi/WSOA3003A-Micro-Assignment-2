@@ -45,6 +45,7 @@ public class battleSystem : MonoBehaviour
     public Text EDefModtxtVal;
     public Text EHPtxtVal;
 
+
     //SETTING UP AND START STATE------------------------------------------------------------
     void Start()
     {
@@ -83,6 +84,7 @@ public class battleSystem : MonoBehaviour
         EHPtxtVal.text = "" + enemyUnit.currentHP;
         EDefModtxtVal.text = "" + enemyUnit.currentDefMod;
     }
+    
 
     //ENEMYTURN STATE---------------------------------------------------------------------
     IEnumerator EnemyTurn()
@@ -98,22 +100,27 @@ public class battleSystem : MonoBehaviour
             //going to do random number gen and choose of the three cards
             if (x==1)
             {
+                cardsystem.EnemyCardBack1.SetActive(true);
                 cardsystem.EnemyCardHolder1.transform.GetChild(0).GetComponent<CardUnit>().EnemyCardUsed();
             }
             else if (x==2)
             {
+                cardsystem.EnemyCardBack2.SetActive(true);
                 cardsystem.EnemyCardHolder2.transform.GetChild(0).GetComponent<CardUnit>().EnemyCardUsed();
             }
             else if(x==3)
             {
+                cardsystem.EnemyCardBack3.SetActive(true);
                 cardsystem.EnemyCardHolder3.transform.GetChild(0).GetComponent<CardUnit>().EnemyCardUsed();
             }
             else if (x == 4)
             {
+                cardsystem.EnemyCardBack4.SetActive(true);
                 cardsystem.EnemyCardHolder4.transform.GetChild(0).GetComponent<CardUnit>().EnemyCardUsed();
             }
             else if (x == 5)
             {
+                cardsystem.EnemyCardBack5.SetActive(true);
                 cardsystem.EnemyCardHolder5.transform.GetChild(0).GetComponent<CardUnit>().EnemyCardUsed();
             }
         }
@@ -170,9 +177,10 @@ public class battleSystem : MonoBehaviour
     {
         //do attack change Enemy stats 
         //convention card Enemyvals affect enemy
-        enemyUnit.currentAtkMod = enemyUnit.currentAtkMod + EnemyAtkModVal * BalanceAtkJoyVal;
-        enemyUnit.currentDefMod = enemyUnit.currentDefMod + EnemyDefModVal * BalanceAtkMeaningVal;
-        enemyUnit.currentHP = enemyUnit.currentHP + EnemyHPVal * BalanceAtkPHVal;
+        enemyUnit.currentHP = enemyUnit.currentHP + EnemyHPVal*playerUnit.currentAtkMod/enemyUnit.currentDefMod;// * BalanceAtkPHVal;
+
+        enemyUnit.currentAtkMod = enemyUnit.currentAtkMod + EnemyAtkModVal;// * BalanceAtkJoyVal;
+        enemyUnit.currentDefMod = enemyUnit.currentDefMod + EnemyDefModVal;// * BalanceAtkMeaningVal;
 
         if (enemyUnit.currentAtkMod < 0) { enemyUnit.currentAtkMod = 0; }
         if (enemyUnit.currentDefMod < 0) { enemyUnit.currentDefMod = 0; }
@@ -183,9 +191,11 @@ public class battleSystem : MonoBehaviour
         enemyHUD.HPSlider.value = enemyUnit.currentHP;
 
         //do attack changing  Player stats    
-        playerUnit.currentAtkMod = playerUnit.currentAtkMod + PlayerAtkModVal * BalanceAtkJoyVal;
-        playerUnit.currentDefMod = playerUnit.currentDefMod + PlayerDefModVal * BalanceAtkMeaningVal;
-        playerUnit.currentHP = playerUnit.currentHP + PlayerHPVal * BalanceAtkPHVal;
+        playerUnit.currentHP = playerUnit.currentHP + PlayerHPVal*playerUnit.currentDefMod;// * BalanceAtkPHVal;
+
+        playerUnit.currentAtkMod = playerUnit.currentAtkMod + PlayerAtkModVal;// * BalanceAtkJoyVal;
+        playerUnit.currentDefMod = playerUnit.currentDefMod + PlayerDefModVal;// * BalanceAtkMeaningVal;
+ 
 
         if (playerUnit.currentAtkMod < 0) { playerUnit.currentAtkMod = 0; }
         if (playerUnit.currentDefMod < 0) { playerUnit.currentDefMod = 0; }
@@ -215,10 +225,11 @@ public class battleSystem : MonoBehaviour
 //convention: enemy Vals affect player if enemy playing card. and visa versa. player refers to who is playing card
     IEnumerator EnemyAttack(float PlayerHPVal, float PlayerDefModVal, float PlayerAtkModVal, float EnemyHPVal, float EnemyDefModVal, float EnemyAtkModVal)
     {
-        //do attack changing Enemy player stats    
-        enemyUnit.currentAtkMod = enemyUnit.currentAtkMod+ PlayerAtkModVal * BalanceAtkJoyVal;
-        enemyUnit.currentDefMod = enemyUnit.currentDefMod+ PlayerDefModVal * BalanceAtkMeaningVal;
-        enemyUnit.currentHP = enemyUnit.currentHP+ PlayerHPVal * BalanceAtkPHVal;
+        //do attack changing Enemy player stats 
+        enemyUnit.currentHP = enemyUnit.currentHP + PlayerHPVal*enemyUnit.currentDefMod;// * BalanceAtkPHVal;
+
+        enemyUnit.currentAtkMod = enemyUnit.currentAtkMod + PlayerAtkModVal;// * BalanceAtkJoyVal;
+        enemyUnit.currentDefMod = enemyUnit.currentDefMod + PlayerDefModVal;// * BalanceAtkMeaningVal;
 
         if (enemyUnit.currentAtkMod < 0) { enemyUnit.currentAtkMod = 0; }
         if (enemyUnit.currentDefMod < 0) { enemyUnit.currentDefMod = 0; }
@@ -228,10 +239,13 @@ public class battleSystem : MonoBehaviour
         enemyHUD.DefModSlider.value = enemyUnit.currentDefMod;
         enemyHUD.HPSlider.value = enemyUnit.currentHP;
 
-        //do attack changing  Player stats    
-        playerUnit.currentAtkMod = playerUnit.currentAtkMod + EnemyAtkModVal * BalanceAtkJoyVal;
-        playerUnit.currentDefMod = playerUnit.currentDefMod + EnemyDefModVal * BalanceAtkMeaningVal;
-        playerUnit.currentHP = playerUnit.currentHP + EnemyHPVal * BalanceAtkPHVal;
+        //do attack changing  Player stats   
+        //use attack mod to increase stats
+        //use player defense mode to decrease
+        playerUnit.currentHP = playerUnit.currentHP + EnemyHPVal* enemyUnit.currentAtkMod / playerUnit.currentDefMod;// * BalanceAtkPHVal;
+
+        playerUnit.currentAtkMod = playerUnit.currentAtkMod + EnemyAtkModVal;// * BalanceAtkJoyVal;
+        playerUnit.currentDefMod = playerUnit.currentDefMod + EnemyDefModVal;// * BalanceAtkMeaningVal;
 
         if (playerUnit.currentAtkMod < 0) { playerUnit.currentAtkMod = 0; }
         if (playerUnit.currentDefMod < 0) { playerUnit.currentDefMod = 0; }
