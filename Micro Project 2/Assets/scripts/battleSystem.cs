@@ -37,6 +37,14 @@ public class battleSystem : MonoBehaviour
     public CardSystem cardsystem;
     public Button drawbutton;
 
+    public Text PAtkModtxtVal;
+    public Text PDefModtxtVal;
+    public Text PHPtxtVal;
+
+    public Text EAtkModtxtVal;
+    public Text EDefModtxtVal;
+    public Text EHPtxtVal;
+
     //SETTING UP AND START STATE------------------------------------------------------------
     void Start()
     {
@@ -67,6 +75,13 @@ public class battleSystem : MonoBehaviour
     private void Update()
     {
         if (state != BattleState.PLAYERTURN) { drawbutton.interactable = false; } else { drawbutton.interactable = true; }
+        PAtkModtxtVal.text = ""+playerUnit.currentAtkMod;
+        PHPtxtVal.text = "" + playerUnit.currentHP;
+        PDefModtxtVal.text = "" + playerUnit.currentDefMod;
+
+        EAtkModtxtVal.text = "" + enemyUnit.currentAtkMod;
+        EHPtxtVal.text = "" + enemyUnit.currentHP;
+        EDefModtxtVal.text = "" + enemyUnit.currentDefMod;
     }
 
     //ENEMYTURN STATE---------------------------------------------------------------------
@@ -116,7 +131,7 @@ public class battleSystem : MonoBehaviour
         //draw card and add to deck on cardsystem script
         Debug.Log("cross call worked");
         state = BattleState.ENEMYTURN;
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
         StartCoroutine(EnemyTurn());
     }
 
@@ -125,16 +140,8 @@ public class battleSystem : MonoBehaviour
         StartCoroutine(DrawCard());
     }
 
-
-
-
-    public void CardUsed(float PHVal)
-    {
-        Debug.Log("This is the cards PH Value: " +PHVal);
-    }
-
 //Attack and defens play funcitons---------------------------------------------------------------
-
+//CALLED BY CARDUNIT ATKCARDUSED()
     public void OnAttackCard(float PlayerHPVal, float PlayerDefModVal, float PlayerAtkModVal, GameObject card, float EnemyHPVal, float EnemyDefModVal, float EnemyAtkModVal)
     {
         //what state we in?
@@ -158,6 +165,7 @@ public class battleSystem : MonoBehaviour
             StartCoroutine(EnemyAttack(PlayerHPVal, PlayerDefModVal, PlayerAtkModVal, EnemyHPVal, EnemyDefModVal, EnemyAtkModVal));
     }
 
+    //CALLED BY ON ATTACKCARDUSED()
     IEnumerator PlayerAttack(float PlayerHPVal, float PlayerDefModVal, float PlayerAtkModVal, float EnemyHPVal, float EnemyDefModVal, float EnemyAtkModVal)
     {
         //do attack change Enemy stats 
@@ -165,6 +173,10 @@ public class battleSystem : MonoBehaviour
         enemyUnit.currentAtkMod = enemyUnit.currentAtkMod + EnemyAtkModVal * BalanceAtkJoyVal;
         enemyUnit.currentDefMod = enemyUnit.currentDefMod + EnemyDefModVal * BalanceAtkMeaningVal;
         enemyUnit.currentHP = enemyUnit.currentHP + EnemyHPVal * BalanceAtkPHVal;
+
+        if (enemyUnit.currentAtkMod < 0) { enemyUnit.currentAtkMod = 0; }
+        if (enemyUnit.currentDefMod < 0) { enemyUnit.currentDefMod = 0; }
+        if (enemyUnit.currentHP > enemyUnit.maxHP) { enemyUnit.currentHP = enemyUnit.maxHP; }
 
         enemyHUD.AtkModSlider.value = enemyUnit.currentAtkMod;
         enemyHUD.DefModSlider.value = enemyUnit.currentDefMod;
@@ -174,6 +186,10 @@ public class battleSystem : MonoBehaviour
         playerUnit.currentAtkMod = playerUnit.currentAtkMod + PlayerAtkModVal * BalanceAtkJoyVal;
         playerUnit.currentDefMod = playerUnit.currentDefMod + PlayerDefModVal * BalanceAtkMeaningVal;
         playerUnit.currentHP = playerUnit.currentHP + PlayerHPVal * BalanceAtkPHVal;
+
+        if (playerUnit.currentAtkMod < 0) { playerUnit.currentAtkMod = 0; }
+        if (playerUnit.currentDefMod < 0) { playerUnit.currentDefMod = 0; }
+        if (playerUnit.currentHP > playerUnit.maxHP) { playerUnit.currentHP = playerUnit.maxHP; }
 
         playerHUD.AtkModSlider.value = playerUnit.currentAtkMod;
         playerHUD.DefModSlider.value = playerUnit.currentDefMod;
@@ -204,6 +220,10 @@ public class battleSystem : MonoBehaviour
         enemyUnit.currentDefMod = enemyUnit.currentDefMod+ PlayerDefModVal * BalanceAtkMeaningVal;
         enemyUnit.currentHP = enemyUnit.currentHP+ PlayerHPVal * BalanceAtkPHVal;
 
+        if (enemyUnit.currentAtkMod < 0) { enemyUnit.currentAtkMod = 0; }
+        if (enemyUnit.currentDefMod < 0) { enemyUnit.currentDefMod = 0; }
+        if (enemyUnit.currentHP > enemyUnit.maxHP) { enemyUnit.currentHP = enemyUnit.maxHP; }
+
         enemyHUD.AtkModSlider.value = enemyUnit.currentAtkMod;
         enemyHUD.DefModSlider.value = enemyUnit.currentDefMod;
         enemyHUD.HPSlider.value = enemyUnit.currentHP;
@@ -212,6 +232,10 @@ public class battleSystem : MonoBehaviour
         playerUnit.currentAtkMod = playerUnit.currentAtkMod + EnemyAtkModVal * BalanceAtkJoyVal;
         playerUnit.currentDefMod = playerUnit.currentDefMod + EnemyDefModVal * BalanceAtkMeaningVal;
         playerUnit.currentHP = playerUnit.currentHP + EnemyHPVal * BalanceAtkPHVal;
+
+        if (playerUnit.currentAtkMod < 0) { playerUnit.currentAtkMod = 0; }
+        if (playerUnit.currentDefMod < 0) { playerUnit.currentDefMod = 0; }
+        if (playerUnit.currentHP > playerUnit.maxHP) { playerUnit.currentHP = playerUnit.maxHP; }
 
         playerHUD.AtkModSlider.value = playerUnit.currentAtkMod;
         playerHUD.DefModSlider.value = playerUnit.currentDefMod;

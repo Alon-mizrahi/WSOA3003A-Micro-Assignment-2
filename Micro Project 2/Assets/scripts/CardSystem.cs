@@ -177,7 +177,6 @@ public class CardSystem : MonoBehaviour
                 return;
             }
         }
-        //Debug.Log("button push cardsystem says high");
     }
 
     //card randomiser at start(shuffle deck)

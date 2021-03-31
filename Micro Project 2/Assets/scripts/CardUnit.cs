@@ -53,7 +53,7 @@ public class CardUnit : MonoBehaviour
     }
 
 
-    //Player card used
+    //Player card used CALLED BY CARD BUTTON PRESS
     public void ATKCardUsed()
     {
         // send card unit data to Attack card function (battlesystem)
