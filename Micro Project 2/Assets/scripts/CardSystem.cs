@@ -139,6 +139,7 @@ public class CardSystem : MonoBehaviour
                 deck[deckIterator].transform.position = EnemyCardHolder1.transform.position;
                 EnemyCardBack1.SetActive(true);
                 deck[deckIterator].transform.GetChild(0).GetComponentInChildren<Button>().interactable = false;
+                EnemyCardHolder1.transform.GetChild(0).GetComponent<Collider2D>().enabled = false;
                 deckIterator++;
                 isTrueEnemyCardHolder1 = true;
                 battlescript.state = BattleState.PLAYERTURN;
@@ -151,6 +152,7 @@ public class CardSystem : MonoBehaviour
                 deck[deckIterator].transform.position = EnemyCardHolder2.transform.position;
                 EnemyCardBack2.SetActive(true);
                 deck[deckIterator].transform.GetChild(0).GetComponentInChildren<Button>().interactable = false;
+                EnemyCardHolder2.transform.GetChild(0).GetComponent<Collider2D>().enabled = false;
                 deckIterator++;
                 isTrueEnemyCardHolder2 = true;
                 battlescript.state = BattleState.PLAYERTURN;
@@ -163,6 +165,7 @@ public class CardSystem : MonoBehaviour
                 deck[deckIterator].transform.position = EnemyCardHolder3.transform.position;
                 EnemyCardBack3.SetActive(true);
                 deck[deckIterator].transform.GetChild(0).GetComponentInChildren<Button>().interactable = false;
+                EnemyCardHolder3.transform.GetChild(0).GetComponent<Collider2D>().enabled = false;
                 deckIterator++;
                 isTrueEnemyCardHolder3 = true;
                 battlescript.state = BattleState.PLAYERTURN;
@@ -175,6 +178,7 @@ public class CardSystem : MonoBehaviour
                 deck[deckIterator].transform.position = EnemyCardHolder4.transform.position;
                 EnemyCardBack4.SetActive(true);
                 deck[deckIterator].transform.GetChild(0).GetComponentInChildren<Button>().interactable = false;
+                EnemyCardHolder4.transform.GetChild(0).GetComponent<Collider2D>().enabled = false;
                 deckIterator++;
                 isTrueEnemyCardHolder4 = true;
                 battlescript.state = BattleState.PLAYERTURN;
@@ -187,6 +191,7 @@ public class CardSystem : MonoBehaviour
                 deck[deckIterator].transform.position = EnemyCardHolder5.transform.position;
                 EnemyCardBack5.SetActive(true);
                 deck[deckIterator].transform.GetChild(0).GetComponentInChildren<Button>().interactable = false;
+                EnemyCardHolder5.transform.GetChild(0).GetComponent<Collider2D>().enabled = false;
                 deckIterator++;
                 isTrueEnemyCardHolder5 = true;
                 battlescript.state = BattleState.PLAYERTURN;

@@ -26,4 +26,6 @@ public class blink : MonoBehaviour
         drawbttn.GetComponent<Image>().color = Color.white;
     }
 
+
+
 }

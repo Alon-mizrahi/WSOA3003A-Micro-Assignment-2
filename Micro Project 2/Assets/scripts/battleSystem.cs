@@ -45,7 +45,8 @@ public class battleSystem : MonoBehaviour
     public Text EDefModtxtVal;
     public Text EHPtxtVal;
 
-
+    public Image playerHUDFlash;
+    public Image enemyHUDFlash;
     //SETTING UP AND START STATE------------------------------------------------------------
     void Start()
     {
@@ -100,27 +101,27 @@ public class battleSystem : MonoBehaviour
             //going to do random number gen and choose of the three cards
             if (x==1)
             {
-                cardsystem.EnemyCardBack1.SetActive(true);
+                cardsystem.EnemyCardBack1.SetActive(false);
                 cardsystem.EnemyCardHolder1.transform.GetChild(0).GetComponent<CardUnit>().EnemyCardUsed();
             }
             else if (x==2)
             {
-                cardsystem.EnemyCardBack2.SetActive(true);
+                cardsystem.EnemyCardBack2.SetActive(false);
                 cardsystem.EnemyCardHolder2.transform.GetChild(0).GetComponent<CardUnit>().EnemyCardUsed();
             }
             else if(x==3)
             {
-                cardsystem.EnemyCardBack3.SetActive(true);
+                cardsystem.EnemyCardBack3.SetActive(false);
                 cardsystem.EnemyCardHolder3.transform.GetChild(0).GetComponent<CardUnit>().EnemyCardUsed();
             }
             else if (x == 4)
             {
-                cardsystem.EnemyCardBack4.SetActive(true);
+                cardsystem.EnemyCardBack4.SetActive(false);
                 cardsystem.EnemyCardHolder4.transform.GetChild(0).GetComponent<CardUnit>().EnemyCardUsed();
             }
             else if (x == 5)
             {
-                cardsystem.EnemyCardBack5.SetActive(true);
+                cardsystem.EnemyCardBack5.SetActive(false);
                 cardsystem.EnemyCardHolder5.transform.GetChild(0).GetComponent<CardUnit>().EnemyCardUsed();
             }
         }
@@ -182,8 +183,8 @@ public class battleSystem : MonoBehaviour
         enemyUnit.currentAtkMod = enemyUnit.currentAtkMod + EnemyAtkModVal;// * BalanceAtkJoyVal;
         enemyUnit.currentDefMod = enemyUnit.currentDefMod + EnemyDefModVal;// * BalanceAtkMeaningVal;
 
-        if (enemyUnit.currentAtkMod < 0) { enemyUnit.currentAtkMod = 0; }
-        if (enemyUnit.currentDefMod < 0) { enemyUnit.currentDefMod = 0; }
+        if (enemyUnit.currentAtkMod < 1) { enemyUnit.currentAtkMod = 1; }
+        if (enemyUnit.currentDefMod < 1) { enemyUnit.currentDefMod = 1; }
         if (enemyUnit.currentHP > enemyUnit.maxHP) { enemyUnit.currentHP = enemyUnit.maxHP; }
 
         enemyHUD.AtkModSlider.value = enemyUnit.currentAtkMod;
@@ -197,13 +198,20 @@ public class battleSystem : MonoBehaviour
         playerUnit.currentDefMod = playerUnit.currentDefMod + PlayerDefModVal;// * BalanceAtkMeaningVal;
  
 
-        if (playerUnit.currentAtkMod < 0) { playerUnit.currentAtkMod = 0; }
-        if (playerUnit.currentDefMod < 0) { playerUnit.currentDefMod = 0; }
+        if (playerUnit.currentAtkMod < 1) { playerUnit.currentAtkMod = 1; }
+        if (playerUnit.currentDefMod < 1) { playerUnit.currentDefMod = 1; }
         if (playerUnit.currentHP > playerUnit.maxHP) { playerUnit.currentHP = playerUnit.maxHP; }
 
         playerHUD.AtkModSlider.value = playerUnit.currentAtkMod;
         playerHUD.DefModSlider.value = playerUnit.currentDefMod;
         playerHUD.HPSlider.value = playerUnit.currentHP;
+
+
+        playerHUDFlash.GetComponent<Image>().color = Color.yellow;
+        enemyHUDFlash.GetComponent<Image>().color = Color.yellow;
+        yield return new WaitForSeconds(0.2f);
+        playerHUDFlash.GetComponent<Image>().color = Color.blue;
+        enemyHUDFlash.GetComponent<Image>().color = Color.red;
 
 
         //check if dead
@@ -231,8 +239,8 @@ public class battleSystem : MonoBehaviour
         enemyUnit.currentAtkMod = enemyUnit.currentAtkMod + PlayerAtkModVal;// * BalanceAtkJoyVal;
         enemyUnit.currentDefMod = enemyUnit.currentDefMod + PlayerDefModVal;// * BalanceAtkMeaningVal;
 
-        if (enemyUnit.currentAtkMod < 0) { enemyUnit.currentAtkMod = 0; }
-        if (enemyUnit.currentDefMod < 0) { enemyUnit.currentDefMod = 0; }
+        if (enemyUnit.currentAtkMod < 1) { enemyUnit.currentAtkMod = 1; }
+        if (enemyUnit.currentDefMod < 1) { enemyUnit.currentDefMod = 1; }
         if (enemyUnit.currentHP > enemyUnit.maxHP) { enemyUnit.currentHP = enemyUnit.maxHP; }
 
         enemyHUD.AtkModSlider.value = enemyUnit.currentAtkMod;
@@ -247,13 +255,19 @@ public class battleSystem : MonoBehaviour
         playerUnit.currentAtkMod = playerUnit.currentAtkMod + EnemyAtkModVal;// * BalanceAtkJoyVal;
         playerUnit.currentDefMod = playerUnit.currentDefMod + EnemyDefModVal;// * BalanceAtkMeaningVal;
 
-        if (playerUnit.currentAtkMod < 0) { playerUnit.currentAtkMod = 0; }
-        if (playerUnit.currentDefMod < 0) { playerUnit.currentDefMod = 0; }
+        if (playerUnit.currentAtkMod < 1) { playerUnit.currentAtkMod = 1; }
+        if (playerUnit.currentDefMod < 1) { playerUnit.currentDefMod = 1; }
         if (playerUnit.currentHP > playerUnit.maxHP) { playerUnit.currentHP = playerUnit.maxHP; }
 
         playerHUD.AtkModSlider.value = playerUnit.currentAtkMod;
         playerHUD.DefModSlider.value = playerUnit.currentDefMod;
         playerHUD.HPSlider.value = playerUnit.currentHP;
+
+        playerHUDFlash.GetComponent<Image>().color = Color.yellow;
+        enemyHUDFlash.GetComponent<Image>().color = Color.yellow;
+        yield return new WaitForSeconds(0.2f);
+        playerHUDFlash.GetComponent<Image>().color = Color.blue;
+        enemyHUDFlash.GetComponent<Image>().color = Color.red;
 
         //check if player dead
         if (playerUnit.isDead() == true)
