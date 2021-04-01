@@ -13334,7 +13334,7 @@ MonoBehaviour:
   PlayerHPValtxt: {fileID: 1330309011}
   PlayerAtkModValtxt: {fileID: 626282323}
   PlayerDefModValtxt: {fileID: 1961995921}
-  EnemyHPVal: 0
+  EnemyHPVal: -10
   EnemyAtkModVal: 0
   EnemyDefModVal: 0
   EnemyHPValtxt: {fileID: 1479939328}
@@ -17822,7 +17822,7 @@ MonoBehaviour:
   PlayerHPValtxt: {fileID: 319994326}
   PlayerAtkModValtxt: {fileID: 535742834}
   PlayerDefModValtxt: {fileID: 1641540291}
-  EnemyHPVal: 0
+  EnemyHPVal: -20
   EnemyAtkModVal: 0
   EnemyDefModVal: 0
   EnemyHPValtxt: {fileID: 983361145}
@@ -21693,7 +21693,7 @@ MonoBehaviour:
   PlayerHPValtxt: {fileID: 1216905239}
   PlayerAtkModValtxt: {fileID: 1935894718}
   PlayerDefModValtxt: {fileID: 2128543308}
-  EnemyHPVal: 0
+  EnemyHPVal: -10
   EnemyAtkModVal: 0
   EnemyDefModVal: 0
   EnemyHPValtxt: {fileID: 1571982153}
@@ -30629,7 +30629,7 @@ MonoBehaviour:
   PlayerHPValtxt: {fileID: 821622164}
   PlayerAtkModValtxt: {fileID: 113472450}
   PlayerDefModValtxt: {fileID: 188505942}
-  EnemyHPVal: 0
+  EnemyHPVal: -10
   EnemyAtkModVal: 0
   EnemyDefModVal: 0
   EnemyHPValtxt: {fileID: 1753698024}
@@ -37553,7 +37553,7 @@ MonoBehaviour:
   PlayerHPValtxt: {fileID: 1400286816}
   PlayerAtkModValtxt: {fileID: 222980669}
   PlayerDefModValtxt: {fileID: 1933090383}
-  EnemyHPVal: 0
+  EnemyHPVal: -15
   EnemyAtkModVal: 0
   EnemyDefModVal: 0
   EnemyHPValtxt: {fileID: 714378818}
@@ -38350,7 +38350,7 @@ MonoBehaviour:
   PlayerHPValtxt: {fileID: 2066417705}
   PlayerAtkModValtxt: {fileID: 25261060}
   PlayerDefModValtxt: {fileID: 1840914109}
-  EnemyHPVal: 0
+  EnemyHPVal: -20
   EnemyAtkModVal: 0
   EnemyDefModVal: 0
   EnemyHPValtxt: {fileID: 798573210}

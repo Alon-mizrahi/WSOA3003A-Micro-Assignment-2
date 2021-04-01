@@ -186,6 +186,7 @@ public class battleSystem : MonoBehaviour
         if (enemyUnit.currentAtkMod < 1) { enemyUnit.currentAtkMod = 1; }
         if (enemyUnit.currentDefMod < 1) { enemyUnit.currentDefMod = 1; }
         if (enemyUnit.currentHP > enemyUnit.maxHP) { enemyUnit.currentHP = enemyUnit.maxHP; }
+        if (enemyUnit.currentHP < 0) { enemyUnit.currentHP = 0; }
 
         enemyHUD.AtkModSlider.value = enemyUnit.currentAtkMod;
         enemyHUD.DefModSlider.value = enemyUnit.currentDefMod;
@@ -201,6 +202,7 @@ public class battleSystem : MonoBehaviour
         if (playerUnit.currentAtkMod < 1) { playerUnit.currentAtkMod = 1; }
         if (playerUnit.currentDefMod < 1) { playerUnit.currentDefMod = 1; }
         if (playerUnit.currentHP > playerUnit.maxHP) { playerUnit.currentHP = playerUnit.maxHP; }
+        if (playerUnit.currentHP < 0) { playerUnit.currentHP = 0; }
 
         playerHUD.AtkModSlider.value = playerUnit.currentAtkMod;
         playerHUD.DefModSlider.value = playerUnit.currentDefMod;
@@ -220,15 +222,16 @@ public class battleSystem : MonoBehaviour
             state = BattleState.WON;
             StartCoroutine(WonFunction());
         }
-        if (playerUnit.isDead() == true)
+        else if (playerUnit.isDead() == true)
         {
             state = BattleState.LOST;
             StartCoroutine(LostFunction());
-        }
-
+        } else if (enemyUnit.isDead() == false || playerUnit.isDead() == false)
+        {
             state = BattleState.ENEMYTURN;
             yield return new WaitForSeconds(2f);
             StartCoroutine(EnemyTurn());
+        }
     }
 //convention: enemy Vals affect player if enemy playing card. and visa versa. player refers to who is playing card
     IEnumerator EnemyAttack(float PlayerHPVal, float PlayerDefModVal, float PlayerAtkModVal, float EnemyHPVal, float EnemyDefModVal, float EnemyAtkModVal)
@@ -242,6 +245,7 @@ public class battleSystem : MonoBehaviour
         if (enemyUnit.currentAtkMod < 1) { enemyUnit.currentAtkMod = 1; }
         if (enemyUnit.currentDefMod < 1) { enemyUnit.currentDefMod = 1; }
         if (enemyUnit.currentHP > enemyUnit.maxHP) { enemyUnit.currentHP = enemyUnit.maxHP; }
+        if (enemyUnit.currentHP < 0) { enemyUnit.currentHP = 0; }
 
         enemyHUD.AtkModSlider.value = enemyUnit.currentAtkMod;
         enemyHUD.DefModSlider.value = enemyUnit.currentDefMod;
@@ -258,6 +262,7 @@ public class battleSystem : MonoBehaviour
         if (playerUnit.currentAtkMod < 1) { playerUnit.currentAtkMod = 1; }
         if (playerUnit.currentDefMod < 1) { playerUnit.currentDefMod = 1; }
         if (playerUnit.currentHP > playerUnit.maxHP) { playerUnit.currentHP = playerUnit.maxHP; }
+        if (playerUnit.currentHP < 0) { playerUnit.currentHP = 0; }
 
         playerHUD.AtkModSlider.value = playerUnit.currentAtkMod;
         playerHUD.DefModSlider.value = playerUnit.currentDefMod;
@@ -269,20 +274,24 @@ public class battleSystem : MonoBehaviour
         playerHUDFlash.GetComponent<Image>().color = Color.blue;
         enemyHUDFlash.GetComponent<Image>().color = Color.red;
 
-        //check if player dead
-        if (playerUnit.isDead() == true)
-        {
-            state = BattleState.LOST;
-            StartCoroutine(LostFunction());
-        }
+        //check if dead
         if (enemyUnit.isDead() == true)
         {
             state = BattleState.WON;
             StartCoroutine(WonFunction());
         }
-        state = BattleState.PLAYERTURN;
+        else if (playerUnit.isDead() == true)
+        {
+            state = BattleState.LOST;
+            StartCoroutine(LostFunction());
+        }
+        else if (enemyUnit.isDead() == false || playerUnit.isDead() == false)
+        {
+            state = BattleState.PLAYERTURN;
             yield return new WaitForSeconds(2f);
             PlayerTurn();
+        }
+
     }
 
 

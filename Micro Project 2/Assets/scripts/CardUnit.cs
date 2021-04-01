@@ -73,6 +73,7 @@ public class CardUnit : MonoBehaviour
     //Player card used CALLED BY CARD BUTTON PRESS
     public void ATKCardUsed()
     {
+        cardsystem.CardDescription.gameObject.SetActive(false);
         // send card unit data to Attack card function (battlesystem)
         battleSystem.OnAttackCard(PlayerHPVal, PlayerDefModVal, PlayerAtkModVal, this.gameObject, EnemyHPVal, EnemyDefModVal, EnemyAtkModVal);    
     }
