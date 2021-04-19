@@ -56,8 +56,8 @@ public class battleSystem : MonoBehaviour
     {
         state = BattleState.START;
         
-        Scene currentScene = SceneManager.GetActiveScene();
-        sceneName = currentScene.name;
+        //Scene currentScene = SceneManager.GetActiveScene();
+        //sceneName = currentScene.name;
 
         StartCoroutine(setupBattle());
     }
@@ -352,10 +352,11 @@ public class battleSystem : MonoBehaviour
     {
         DialogText.text = "You Won! You have defeaten " + enemyUnit.UnitName + " You can advance.";
         yield return new WaitForSeconds(5f);
+        Application.LoadLevel(Application.loadedLevel);
         //go to next scene
-        if (sceneName == "1_level") { SceneManager.LoadScene("2_level"); }
-        else if (sceneName == "2_level") { SceneManager.LoadScene("3_level"); }
-        else if (sceneName == "3_level") { SceneManager.LoadScene("1_level"); }
+        //if (sceneName == "1_level") { SceneManager.LoadScene("2_level"); }
+        // else if (sceneName == "2_level") { SceneManager.LoadScene("3_level"); }
+        // else if (sceneName == "3_level") { SceneManager.LoadScene("1_level"); }
     }
 
 //LOST STATE------------------------------------------------------------------------
